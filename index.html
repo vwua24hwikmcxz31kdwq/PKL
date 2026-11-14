@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Laporan & Portofolio PKL</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN (Ikon Standar Web Developer Profesional) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neonBlue: '#00f2fe',
+                        neonPurple: '#7f00ff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dark .neon-glow-blue {
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+        .dark .neon-glow-purple {
+            box-shadow: 0 0 15px rgba(127, 0, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Top Navigation / Header -->
+    <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <!-- Logo Web Kustom (SVG Professional Badge) -->
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 dark:from-neonBlue dark:to-neonPurple flex items-center justify-center text-white dark:text-slate-950 shadow-md">
+                <i data-lucide="code-2" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <span class="text-lg font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-neonBlue dark:to-neonPurple bg-clip-text text-transparent">PKL Portofolio</span>
+                <span class="block text-xs text-slate-400 font-medium">Logbook & Report System</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <!-- Tombol Dark/Light Mode -->
+            <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-neonBlue hover:scale-105 transition shadow-sm">
+                <span id="modeIcon" class="text-lg">🌙</span>
+            </button>
+            <!-- Tombol Login Admin / Publik -->
+            <button id="authBtn" onclick="handleAuthClick()" class="flex items-center space-x-2 px-4 py-2 text-sm font-semibold rounded-xl bg-blue-600 text-white dark:bg-neonBlue dark:text-slate-950 hover:opacity-90 transition shadow-sm">
+                <i data-lucide="shield" class="w-4 h-4"></i>
+                <span id="authBtnText">Akses Admin</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="flex flex-1 relative">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 hidden md:block space-y-2">
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">Menu Navigasi</div>
+            
+            <button onclick="switchTab('beranda')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-neonBlue transition nav-link active text-blue-600 dark:text-neonBlue font-bold bg-blue-50 dark:bg-slate-800/50" data-tab="beranda">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                <span>Beranda</span>
+            </button>
+            
+            <button onclick="switchTab('report')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-neonBlue transition nav-link" data-tab="report">
+                <i data-lucide="folder-kanban" class="w-5 h-5"></i>
+                <span>Report Center</span>
+            </button>
+            
+            <button onclick="switchTab('logbook')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-neonBlue transition nav-link admin-only hidden" data-tab="logbook">
+                <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                <span>Logbook</span>
+            </button>
+            
+            <button onclick="switchTab('presensi')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-neonBlue transition nav-link admin-only hidden" data-tab="presensi">
+                <i data-lucide="calendar-check-2" class="w-5 h-5"></i>
+                <span>Presensi</span>
+            </button>
+            
+            <button onclick="switchTab('profil')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-neonBlue transition nav-link" data-tab="profil">
+                <i data-lucide="user-circle" class="w-5 h-5"></i>
+                <span>Profil & Portofolio</span>
+            </button>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-1 p-6 max-w-7xl mx-auto">
+            
+            <!-- TAB: BERANDA -->
+            <div id="tab-beranda" class="tab-content space-y-6">
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold mb-1">Halo, Selamat Datang! 👋</h1>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">Berikut adalah ringkasan aktivitas dan progres kegiatan PKL secara real-time.</p>
+                    </div>
+                    <div class="hidden sm:block p-3 rounded-2xl bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-neonBlue">
+                        <i data-lucide="sparkles" class="w-8 h-8"></i>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm font-semibold text-slate-400">Waktu Real-Time</span>
+                            <i data-lucide="clock" class="w-5 h-5 text-blue-600 dark:text-neonBlue"></i>
+                        </div>
+                        <div id="liveClock" class="text-2xl font-bold text-blue-600 dark:text-neonBlue">00:00:00</div>
+                    </div>
+                    <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm font-semibold text-slate-400">Total Laporan Masuk</span>
+                            <i data-lucide="file-text" class="w-5 h-5 text-indigo-600 dark:text-neonPurple"></i>
+                        </div>
+                        <div id="totalReportCount" class="text-2xl font-bold">0</div>
+                    </div>
+                    <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-sm font-semibold text-slate-400">Statistik Aktivitas Hari Ini</span>
+                            <i data-lucide="activity" class="w-5 h-5 text-indigo-600 dark:text-neonPurple"></i>
+                        </div>
+                        <div id="statProgress" class="text-2xl font-bold text-indigo-600 dark:text-neonPurple">0 / 10 Slot</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: REPORT CENTER (PUBLIK & READ ONLY) -->
+            <div id="tab-report" class="tab-content hidden space-y-6">
+                <div>
+                    <h2 class="text-xl font-bold flex items-center space-x-2">
+                        <i data-lucide="folder-kanban" class="w-6 h-6 text-blue-600 dark:text-neonBlue"></i>
+                        <span>Report Center (Arsip Laporan)</span>
+                    </h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Daftar seluruh rekapitulasi laporan kegiatan PKL secara publik.</p>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div id="reportListContainer" class="space-y-4">
+                        <p class="text-slate-400 text-sm">Memuat data dari cloud...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: LOGBOOK (ADMIN ONLY) -->
+            <div id="tab-logbook" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold flex items-center space-x-2">
+                    <i data-lucide="book-open-check" class="w-6 h-6 text-blue-600 dark:text-neonBlue"></i>
+                    <span>Logbook & Input Kegiatan</span>
+                </h2>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                    <h3 class="font-semibold text-blue-600 dark:text-neonBlue flex items-center space-x-2">
+                        <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                        <span>Input Laporan Harian Baru</span>
+                    </h3>
+                    <form onsubmit="submitLogbook(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Kegiatan Utama</label>
+                            <input type="text" id="inputKegiatan" required class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-neonBlue" placeholder="Tulis kegiatan hari ini...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Langkah Kerja</label>
+                            <textarea id="inputLangkah" rows="3" required class="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-neonBlue" placeholder="Rinci langkah pengerjaannya..."></textarea>
+                        </div>
+                        <button type="submit" class="flex items-center space-x-2 px-6 py-2.5 bg-blue-600 text-white dark:bg-neonBlue dark:text-slate-950 font-semibold rounded-xl hover:opacity-90 transition shadow-sm">
+                            <i data-lucide="save" class="w-4 h-4"></i>
+                            <span>Simpan Laporan</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB: PRESENSI (ADMIN ONLY) -->
+            <div id="tab-presensi" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold flex items-center space-x-2">
+                    <i data-lucide="calendar-check-2" class="w-6 h-6 text-blue-600 dark:text-neonBlue"></i>
+                    <span>Pencatatan Presensi Kehadiran</span>
+                </h2>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                    <p class="text-sm text-slate-400">Pilih status kehadiran hari ini:</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="submitPresensi('Hadir')" class="flex items-center space-x-2 px-4 py-2.5 bg-green-600 text-white rounded-xl font-semibold hover:opacity-90 shadow-sm">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i><span>Hadir</span>
+                        </button>
+                        <button onclick="submitPresensi('Izin')" class="flex items-center space-x-2 px-4 py-2.5 bg-yellow-600 text-white rounded-xl font-semibold hover:opacity-90 shadow-sm">
+                            <i data-lucide="alert-circle" class="w-4 h-4"></i><span>Izin</span>
+                        </button>
+                        <button onclick="submitPresensi('Sakit')" class="flex items-center space-x-2 px-4 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:opacity-90 shadow-sm">
+                            <i data-lucide="thermometer" class="w-4 h-4"></i><span>Sakit</span>
+                        </button>
+                        <button onclick="submitPresensi('Alfa')" class="flex items-center space-x-2 px-4 py-2.5 bg-red-600 text-white rounded-xl font-semibold hover:opacity-90 shadow-sm">
+                            <i data-lucide="x-circle" class="w-4 h-4"></i><span>Alfa</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: PROFIL -->
+            <div id="tab-profil" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold flex items-center space-x-2">
+                    <i data-lucide="user-circle" class="w-6 h-6 text-blue-600 dark:text-neonBlue"></i>
+                    <span>Profil & Portofolio Siswa</span>
+                </h2>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center space-x-6">
+                    <img id="profilFoto" src="https://via.placeholder.com/150" class="w-24 h-24 rounded-full object-cover border-2 border-blue-600 dark:border-neonBlue shadow-md">
+                    <div>
+                        <h3 id="profilNama" class="text-xl font-bold">Nama Siswa</h3>
+                        <p id="profilSekolah" class="text-sm text-slate-500 dark:text-slate-400">SMK Negeri 1</p>
+                        <p id="profilDivisi" class="text-sm mt-1 text-blue-600 dark:text-neonBlue font-medium flex items-center space-x-1">
+                            <i data-lucide="badge-check" class="w-4 h-4 inline"></i>
+                            <span>Divisi Web Developer</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Script Utama & Inisialisasi Ikon Lucide -->
+    <script>
+        // Inisialisasi ikon Lucide profesional
+        lucide.createIcons();
+
+        // CONFIG JSONBIN
+        const BIN_ID = "YOUR_BIN_ID_HERE";
+        const API_KEY = "YOUR_MASTER_KEY_HERE";
+
+        let isAdmin = false;
+        const ADMIN_PIN = "123456";
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('modeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.textContent = '🌞';
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.textContent = '🌙';
+            }
+        }
+
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.getElementById('modeIcon').textContent = '🌞';
+        }
+
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('liveClock').textContent = now.toLocaleTimeString();
+        }, 1000);
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.classList.remove('text-blue-600', 'dark:text-neonBlue', 'font-bold', 'bg-blue-50', 'dark:bg-slate-800/50');
+            });
+            const activeLink = document.querySelector(`[data-tab="${tabId}"]`);
+            activeLink.classList.add('text-blue-600', 'dark:text-neonBlue', 'font-bold', 'bg-blue-50', 'dark:bg-slate-800/50');
+        }
+
+        function handleAuthClick() {
+            if (!isAdmin) {
+                const pin = prompt("Masukkan PIN Admin:");
+                if (pin === ADMIN_PIN) {
+                    isAdmin = true;
+                    document.getElementById('authBtnText').textContent = "Logout Admin";
+                    document.getElementById('authBtn').classList.replace('bg-blue-600', 'bg-red-600');
+                    document.getElementById('authBtn').classList.replace('dark:bg-neonBlue', 'dark:bg-red-600');
+                    document.querySelectorAll('.admin-only').forEach(el => el.classList.remove('hidden'));
+                    alert("Login Admin Berhasil!");
+                    switchTab('logbook');
+                } else if (pin !== null) {
+                    alert("PIN Salah!");
+                }
+            } else {
+                isAdmin = false;
+                document.getElementById('authBtnText').textContent = "Akses Admin";
+                document.getElementById('authBtn').classList.replace('bg-red-600', 'bg-blue-600');
+                document.getElementById('authBtn').classList.replace('dark:bg-red-600', 'dark:bg-neonBlue');
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
+                switchTab('beranda');
+                alert("Berhasil Logout.");
+            }
+        }
+
+        function submitLogbook(e) {
+            e.preventDefault();
+            alert("Laporan berhasil disimpan!");
+            e.target.reset();
+        }
+
+        function submitPresensi(status) {
+            alert("Presensi " + status + " berhasil dicatat!");
+        }
+    </script>
+</body>
+</html>
